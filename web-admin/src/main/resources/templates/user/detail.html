@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<table class="table">
+    <thead>
+    <tr>
+        <td>ID:</td>
+        <td th:text="${user.id}"></td>
+    </tr>
+    <tr>
+        <td>用户名:</td>
+        <td th:text="${user.username}"></td>
+    </tr>
+    <tr>
+        <td>电话:</td>
+        <td th:text="${user.mobileNumber}"></td>
+    </tr>
+    <tr>
+        <td>邮箱:</td>
+        <td th:text="${user.email}"></td>
+    </tr>
+    <tr>
+        <td>创建时间:</td>
+        <td th:text="${#temporals.format(user.ctime,'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+    <tr>
+        <td>修改时间:</td>
+        <td th:text="${#temporals.format(user.mtime,'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+    </thead>
+</table>
+</body>
+</html>

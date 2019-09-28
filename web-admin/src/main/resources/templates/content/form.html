@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/head::head('内容管理')}">
+</head>
+<link href="https://cdn.bootcss.com/zTree.v3/3.5.33/css/metroStyle/metroStyle.min.css" rel="stylesheet">
+<link href="https://cdn.bootcss.com/dropzone/5.5.1/min/basic.min.css" rel="stylesheet">
+<link href="https://cdn.bootcss.com/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet">
+<link href="https://cdn.bootcss.com/wangEditor/10.0.13/wangEditor.min.css" rel="stylesheet">
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <header th:replace="~{common/header::header}"></header>
+    <aside th:replace="~{common/menus::menus}"></aside>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                内容管理
+                <small>导航</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li class="active">内容管理</li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="alert alert-danger alert-dismissible" th:if="${baseResult != null}">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <span th:utext="${baseResult.getMessage()}"></span>
+            </div>
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title" th:text="${content.getId()} == null?'新增内容':'修改内容'">Horizontal Form</h3>
+                </div>
+                <!-- form start -->
+                <form id="inputForm" class="form-horizontal" th:action="@{/content/save}" method="post">
+                    <input name="categoryId" id="categoryId" hidden>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">父级类目</label>
+                            <div class="col-sm-10">
+                                <input name="name" class="form-control required"
+                                       id="name" placeholder="请选择" readonly="readonly"
+                                       data-toggle="modal" data-target="#modal-tree">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="title" class="col-sm-2 control-label">标题</label>
+                            <div class="col-sm-10">
+                                <input name="title" class="form-control required"
+                                       id="title" placeholder="请输入标题">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="subTitle" class="col-sm-2 control-label">子标题</label>
+                            <div class="col-sm-10">
+                                <input name="subTitle" class="form-control required"
+                                       id="subTitle" placeholder="请输入子标题">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="titleDesc" class="col-sm-2 control-label">标题描述</label>
+                            <div class="col-sm-10">
+                                <input name="titleDesc" class="form-control required"
+                                       id="titleDesc" placeholder="请输入标题描述">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="url" class="col-sm-2 control-label">链接</label>
+                            <div class="col-sm-10">
+                                <input name="url" class="form-control url"
+                                       id="url" placeholder="请输入链接">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="pic" class="col-sm-2 control-label">图片一</label>
+                            <div class="col-sm-10">
+                                <input name="pic" class="form-control"
+                                       id="pic" placeholder="请输入图片一">
+                                <div id="dropz" class="dropzone"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="pic2" class="col-sm-2 control-label">图片二</label>
+                            <div class="col-sm-10">
+                                <input name="pic2" class="form-control"
+                                       id="pic2" placeholder="请输入图片二">
+                                <div id="dropz2" class="dropzone"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">详情</label>
+                            <input id="content" name="content" hidden>
+                            <div class="col-sm-10">
+                                <div id="editor">
+                                    <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-default" onclick="history.back();">返回</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-info pull-right">提交</button>
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+
+        </section>
+    </div>
+    <footer th:replace="~{common/copyright::copyright}"></footer>
+</div>
+<div th:replace="~{common/modal::tree('myTree')}"></div>
+<div th:include="common/footer::footer"></div>
+<script src="https://cdn.bootcss.com/zTree.v3/3.5.33/js/jquery.ztree.core.min.js"></script>
+<script src="https://cdn.bootcss.com/dropzone/5.5.1/min/dropzone.min.js"></script>
+<script src="https://cdn.bootcss.com/wangEditor/10.0.13/wangEditor.min.js"></script>
+<script>
+    Validate.validateForm("inputForm");
+    App.initZTree('/contentCategory/treeData',["id"],function (nodes) {
+        var node = nodes[0];
+        $("#categoryId").val(node.id);
+        $("#name").val(node.name);
+    });
+    App.initDropzone({
+        id: "dropz",
+        init: function () { //Dropzone 初始化的时候调用 添加事件监听器
+            this.on("success", function (file, data) {
+                // 上传成功触发的事件
+                $("#pic").val(data.filename);
+            });
+        }
+    });
+    App.initDropzone({
+        id: "dropz2",
+        init: function () { //Dropzone 初始化的时候调用 添加事件监听器
+            this.on("success", function (file, data) {
+                // 上传成功触发的事件
+                $("#pic2").val(data.filename);
+            });
+        }
+    });
+    $(function () {
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+        // 上传图片到服务器链接
+        editor.customConfig.uploadImgServer = '/upload';
+        editor.customConfig.uploadFileName = 'editorFile';
+        editor.create();
+        //点击提交时,将富文本内容以html标签格式放入content中
+        $("#btnSubmit").bind('click',function () {
+            $("#content").val(editor.txt.html());
+        });
+    });
+</script>
+</body>
+</html>
