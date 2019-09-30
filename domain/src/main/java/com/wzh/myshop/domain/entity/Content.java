@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper=false)
 public class Content extends BaseEntity {
-    private Integer id;
+
     @NotNull(message = "父级目录不能为空")
     private Integer categoryId;
     @Length(min = 1,max = 20,message = "标题长度介于1 - 20之间")
@@ -27,10 +27,6 @@ public class Content extends BaseEntity {
     private String pic;
 
     private String pic2;
-
-    private LocalDateTime ctime;
-
-    private LocalDateTime mtime;
     @Length(min = 1,message = "内容不可为空")
     private String content;
 

@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper=false)
 public class ContentCategory extends BaseEntity{
-    private Integer id;
 
     private Integer parentId;
 
@@ -20,9 +19,5 @@ public class ContentCategory extends BaseEntity{
     private Integer sortOrder;
 
     private Integer isParent;
-
-    private LocalDateTime ctime;
-
-    private LocalDateTime mtime;
 
 }

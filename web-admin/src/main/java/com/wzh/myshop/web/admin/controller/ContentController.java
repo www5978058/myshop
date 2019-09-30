@@ -3,8 +3,9 @@ package com.wzh.myshop.web.admin.controller;
 import com.wzh.myshop.commons.dto.BaseResult;
 import com.wzh.myshop.commons.dto.PageInfo;
 import com.wzh.myshop.domain.entity.Content;
-import com.wzh.myshop.domain.entity.User;
+import com.wzh.myshop.domain.entity.ContentExample;
 import com.wzh.myshop.web.admin.service.ContentService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +31,18 @@ public class ContentController {
     public PageInfo<Content> page(@RequestParam(required = false,defaultValue = "0") int draw,
                                @RequestParam(required = false,defaultValue = "0") int start,
                                @RequestParam(required = false,defaultValue = "10") int length, Content content){
-        return contentService.page(draw,start,length,content);
+        ContentExample example = new ContentExample();
+        ContentExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank(content.getTitle())) {
+            criteria.andTitleLike("%" + content.getTitle() + "%");
+        }
+        if (StringUtils.isNotBlank(content.getSubTitle())) {
+            criteria.andSubTitleLike("%" + content.getSubTitle() + "%");
+        }
+        if (StringUtils.isNotBlank(content.getTitleDesc())) {
+            criteria.andTitleDescLike("%" + content.getTitleDesc() + "%");
+        }
+        return contentService.page(draw,start,length,content,example);
     }
 
     @GetMapping("form")
@@ -42,7 +54,7 @@ public class ContentController {
 
     @PostMapping("save")
     public String save(Content content, Model model, RedirectAttributes redirectAttributes){
-        BaseResult baseResult = contentService.save(content);
+        BaseResult baseResult = contentService.save(content,"保存内容信息成功");
         if (baseResult.getStatus() == 200) {
             redirectAttributes.addFlashAttribute("baseResult",baseResult);
             return "redirect:/content/list";

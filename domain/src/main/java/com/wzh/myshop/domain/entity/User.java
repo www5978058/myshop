@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper=false)
 public class User extends BaseEntity {
-    private Integer id;
     @Length(min = 6,max = 20,message = "用户名长度必须介于6 - 20位之间")
     private String username;
     @JsonIgnore
@@ -24,9 +23,5 @@ public class User extends BaseEntity {
     private String mobileNumber;
     @Pattern(regexp = RegexpUtils.EMAIL,message = "邮箱格式不正确")
     private String email;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime ctime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime mtime;
 
 }

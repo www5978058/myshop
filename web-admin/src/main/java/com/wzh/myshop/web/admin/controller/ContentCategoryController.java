@@ -6,7 +6,10 @@ import com.wzh.myshop.web.admin.service.ContentCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,9 @@ public class ContentCategoryController {
     @RequestMapping("list")
     public String list(Model model){
         List<ContentCategory> targetList = new ArrayList<>();
-        sortList(contentCategoryService.selectAll(),targetList,0);
+        ContentCategoryExample example = new ContentCategoryExample();
+        example.setOrderByClause("parent_id asc,sort_order asc,is_parent desc");
+        sortList(contentCategoryService.selectByExample(example),targetList,0);
         model.addAttribute("list",targetList);
         return "contentCategory/list";
     }
@@ -47,4 +52,6 @@ public class ContentCategoryController {
             }
         }
     }
+
+
 }
