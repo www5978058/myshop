@@ -20,6 +20,8 @@
         <module>web-ui</module>
         <module>web-api</module>
         <module>generator</module>
+        <module>mapper</module>
+        <module>service</module>
     </modules>
     <packaging>pom</packaging>
     <properties>
@@ -28,7 +30,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <build>
-        <finalName>exchange-common</finalName>
         <defaultGoal>compile</defaultGoal>
         <plugins>
             <plugin>

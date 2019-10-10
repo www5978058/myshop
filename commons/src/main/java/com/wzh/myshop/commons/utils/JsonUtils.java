@@ -2,9 +2,8 @@ package com.wzh.myshop.commons.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +16,14 @@ import java.util.Map;
  */
 public class JsonUtils {
     private final static ObjectMapper objectMapper = new ObjectMapper();
+
+    /**
+     * 解决jdk8时间类型转换问题
+     */
+    static {
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        objectMapper.registerModule(new JavaTimeModule());
+    }
 
     public static ObjectMapper getInstance() {
         return objectMapper;
@@ -57,6 +64,19 @@ public class JsonUtils {
     public static <T> T json2pojo(String jsonString, Class<T> clazz) throws Exception {
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
         return objectMapper.readValue(jsonString, clazz);
+    }
+    /**
+     * 将指定节点的 JSON 数据转换为 JavaBean
+     *
+     * @param jsonString
+     * @param clazz
+     * @return
+     * @throws Exception
+     */
+    public static <T> T json2pojoByTree(String jsonString, String treeNode, Class<T> clazz) throws Exception {
+        JsonNode jsonNode = objectMapper.readTree(jsonString);
+        JsonNode data = jsonNode.findPath(treeNode);
+        return json2pojo(data.toString(), clazz);
     }
 
     /**
@@ -171,6 +191,18 @@ public class JsonUtils {
         return list;
     }
 
+    /**
+     * 将指定节点的 JSON 数组转换为集合
+     * @param jsonStr JSON 字符串
+     * @param treeNode 查找 JSON 中的节点
+     * @return
+     * @throws Exception
+     */
+    public static <T> List<T> json2listByTree(String jsonStr, String treeNode, Class<T> clazz) throws  Exception {
+        JsonNode jsonNode = objectMapper.readTree(jsonStr);
+        JsonNode data = jsonNode.findPath(treeNode);
+        return json2list(data.toString(), clazz);
+    }
 
     /**
      * 获取泛型的 Collection Type

@@ -3,8 +3,8 @@ package com.wzh.myshop.commons.base;
 import com.wzh.myshop.commons.dto.BaseResult;
 import com.wzh.myshop.commons.dto.PageInfo;
 import com.wzh.myshop.commons.validator.BeanValidator;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -46,31 +46,37 @@ public abstract class BaseServiceImpl<T extends BaseEntity, E extends BaseExampl
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void add(T t) {
         mapper.insertSelective(t);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Integer id) {
         mapper.deleteByPrimaryKey(id);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteMul(E e) {
         mapper.deleteByExample(e);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void update(T t) {
         mapper.updateByPrimaryKeySelective(t);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateByExample(T t, E e) {
         mapper.updateByExampleSelective(t, e);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public BaseResult save(T t, String successMsg) {
         String validator = BeanValidator.validator(t);
         if (validator != null) {

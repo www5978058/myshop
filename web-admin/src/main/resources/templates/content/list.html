@@ -70,7 +70,7 @@
                         <div class="box-body">
                             <a href="#" th:href="@{/content/form}" type="button" class="btn btn-default btn-xs"><i
                                     class="fa fa-plus"></i> 新增</a>&nbsp;&nbsp;&nbsp;
-                            <button class="btn btn-default btn-xs"><i
+                            <button class="btn btn-default btn-xs" onclick="App.delMul('/content/del')"><i
                                     class="fa fa-trash"></i> 删除
                             </button>&nbsp;&nbsp;&nbsp;
                             <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-download"></i>
@@ -94,7 +94,6 @@
                                     <th>链接</th>
                                     <th>图片1</th>
                                     <th>图片2</th>
-                                    <th>修改时间</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -148,8 +147,7 @@
                     }
                     return '<a href="' + row.pic2 + '" target="_blank">查看</a>';
                 }
-            },
-            {"data": "mtime"}
+            }
         ];
         _dataTable = App.initDataTables("/content/page", columns);
     });

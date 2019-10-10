@@ -36,12 +36,12 @@
         </javaModelGenerator>
 
         <!-- mapper 映射配置文件 -->
-        <sqlMapGenerator targetPackage="mappers" targetProject="web-admin/src/main/resources">
+        <sqlMapGenerator targetPackage="mappers" targetProject="mapper/src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!-- mapper接口位置 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.wzh.myshop.web.admin.mapper" targetProject="web-admin/src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.wzh.myshop.mapper" targetProject="mapper/src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 

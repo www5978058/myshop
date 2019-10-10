@@ -44,6 +44,32 @@ var App = function () {
             }
         });
     };
+
+    /**
+     * 删除单笔记录
+     * @param url 删除链接
+     * @param id 需要删除数据的 ID
+     */
+    var delSingle = function (url, id, msg) {
+        // 可选参数
+        if (!msg) msg = null;
+
+        // 将 ID 放入数组中，以便和批量删除通用
+        idArr = new Array();
+        idArr.push(id);
+
+        $("#modal-default-message").html(msg == null ? "您确定删除数据项吗？" : msg);
+        $("#modal-default").modal("show");
+        /*绑定点击事件 绑定前先取消绑定事件*/
+        $("#modal-default-confirm").unbind("click");
+        $("#modal-default-confirm").bind("click", function () {
+            if (idArr.length !== 0) {
+                delData(url);
+            }
+            $("#modal-default").modal("hide");
+        });
+    };
+
     /**
      *批量删除
      * @param url  路径
@@ -66,32 +92,36 @@ var App = function () {
         $("#modal-default-confirm").unbind("click");
         $("#modal-default-confirm").bind("click", function () {
             if (idArr.length !== 0) {
-                del();
+                delData(url);
             }
             $("#modal-default").modal("hide");
         });
 
-        function del() {
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: {"ids": idArr.toString()},
-                datatype: "JSON",
-                success: function (data) {
-                    $("#modal_result_confirm").unbind("click");
-                    if (data.status === 200) {
-                        $("#modal-result-message").html("删除成功");
-                        $("#modal_result_confirm").bind("click",function () {
-                            window.location.reload();
-                        });
-                    } else {
-                        $("#modal-result-message").html(data.message);
-                    }
-                    $("#modal-result").modal("show");
-                }
-            });
-        }
     };
+    /**
+     * AJAX 异步删除
+     * @param url
+     */
+    function delData(url) {
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {"ids": idArr.toString()},
+            datatype: "JSON",
+            success: function (data) {
+                $("#modal_result_confirm").unbind("click");
+                if (data.status === 200) {
+                    $("#modal-result-message").html("删除成功");
+                    $("#modal_result_confirm").bind("click",function () {
+                        window.location.reload();
+                    });
+                } else {
+                    $("#modal-result-message").html(data.message);
+                }
+                $("#modal-result").modal("show");
+            }
+        });
+    }
     /**
      * 初始化dataTables
      */
@@ -222,6 +252,10 @@ var App = function () {
         },
         initDropzone: function (opts) {
             initDropzone(opts);
+        },
+        delSingle: function (url,id,msg) {
+            console.log("url:"+url+",id:"+id);
+            delSingle(url,id,msg);
         }
     }
 }();

@@ -1,6 +1,6 @@
 package com.wzh.myshop.web.admin.test;
 
-import com.wzh.myshop.web.admin.mapper.UserMapper;
+import com.wzh.myshop.mapper.UserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

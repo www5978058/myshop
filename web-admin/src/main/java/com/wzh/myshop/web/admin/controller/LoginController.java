@@ -1,8 +1,8 @@
 package com.wzh.myshop.web.admin.controller;
 
 import com.wzh.myshop.domain.entity.User;
-import com.wzh.myshop.web.admin.service.UserService;
 import com.wzh.myshop.commons.constant.WebConstant;
+import com.wzh.myshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

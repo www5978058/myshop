@@ -10,6 +10,8 @@
         <module name="commons" />
         <module name="domain" />
         <module name="generator" />
+        <module name="mapper" />
+        <module name="service" />
         <module name="web-admin" />
         <module name="web-api" />
         <module name="web-ui" />
@@ -22,6 +24,8 @@
       <module name="commons" options="-parameters" />
       <module name="domain" options="-parameters" />
       <module name="generator" options="-parameters" />
+      <module name="mapper" options="-parameters" />
+      <module name="service" options="-parameters" />
       <module name="web-admin" options="-parameters" />
       <module name="web-api" options="-parameters" />
       <module name="web-ui" options="-parameters" />

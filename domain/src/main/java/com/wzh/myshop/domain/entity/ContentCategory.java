@@ -4,8 +4,6 @@ import com.wzh.myshop.commons.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper=false)
@@ -19,5 +17,5 @@ public class ContentCategory extends BaseEntity{
     private Integer sortOrder;
 
     private Integer isParent;
-
+    private ContentCategory parent;
 }

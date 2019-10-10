@@ -38,11 +38,8 @@
                             <h3 class="box-title">内容列表</h3>
                         </div>
                         <div class="box-body">
-                            <a href="#" type="button" class="btn btn-default btn-xs"><i
+                            <a href="#" th:href="@{/contentCategory/form}" type="button" class="btn btn-default btn-xs"><i
                                     class="fa fa-plus"></i> 新增</a>&nbsp;&nbsp;&nbsp;
-                            <button class="btn btn-default btn-xs"><i
-                                    class="fa fa-trash"></i> 删除
-                            </button>&nbsp;&nbsp;&nbsp;
                             <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-download"></i>
                                 导入</a>&nbsp;&nbsp;&nbsp;
                             <a href="#" type="button" class="btn btn-default btn-xs"><i class="fa fa-upload"></i> 导出</a>&nbsp;&nbsp;&nbsp;
@@ -59,14 +56,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="contentCatetory:${list}" th:attr="data-tt-id=${contentCatetory.id},data-tt-parent-id=${contentCatetory.parentId}">
-                                        <td th:text="${contentCatetory.id}"></td>
-                                        <td th:text="${contentCatetory.name}"></td>
-                                        <td th:text="${contentCatetory.sortOrder}"></td>
+                                    <tr th:each="item:${list}" th:attr="data-tt-id=${item.id},data-tt-parent-id=${item.parentId}">
+                                        <td th:text="${item.id}"></td>
+                                        <td th:text="${item.name}"></td>
+                                        <td th:text="${item.sortOrder}"></td>
                                         <td>
-                                            <a href="#" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 编辑</a>&nbsp;&nbsp;&nbsp;
-                                            <button href="#" type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 删除</button>&nbsp;&nbsp;&nbsp;
-                                            <a href="#" type="button" class="btn btn-sm btn-default">增加下一级内容</a>
+                                            <a href="#" th:href="@{/contentCategory/form?id=}+${item.id}" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 编辑</a>&nbsp;&nbsp;&nbsp;
+                                            <button type="button" th:onclick="App.delSingle('/contentCategory/del',[[${item.id}]],'警告：该删除操作会将包括选中类目在内的全部子类目及属于类目的内容一并删除，请谨慎操作！您还确定继续吗？')" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 删除</button>&nbsp;&nbsp;&nbsp;
+                                            <a href="#" th:href="@{/contentCategory/form(parentId=${item.id})}" type="button" class="btn btn-sm btn-default">增加下一级内容</a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -82,6 +79,8 @@
     </div>
     <footer th:replace="~{common/copyright::copyright}"></footer>
 </div>
+<div th:replace="~{common/modal::default(null)}"></div>
+<div th:replace="~{common/modal::result(null)}"></div>
 <div th:include="~{common/footer::footer}"></div>
 <script src="https://cdn.bootcss.com/jquery-treetable/3.2.0/jquery.treetable.min.js"></script>
 <script>

@@ -3,9 +3,9 @@ package com.wzh.myshop.web.admin.controller;
 import com.wzh.myshop.commons.utils.MyEAESUtil;
 import com.wzh.myshop.domain.entity.User;
 import com.wzh.myshop.domain.entity.UserExample;
-import com.wzh.myshop.web.admin.service.UserService;
 import com.wzh.myshop.commons.dto.BaseResult;
 import com.wzh.myshop.commons.dto.PageInfo;
+import com.wzh.myshop.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,15 +24,16 @@ import java.util.Arrays;
 public class UserController {
     @Autowired
     UserService userService;
+    @ModelAttribute
+    public User getUser(Integer id){
+        return id != null?userService.selectOne(id).setPassword(null):new User();
+    }
     @GetMapping("/list")
     public String list(Model model){
         return "user/list";
     }
     @GetMapping("form")
-    public String form(Integer id,Model model){
-        User user = id != null?userService.selectOne(id):new User();
-        user.setPassword(null);
-        model.addAttribute("user",user);
+    public String form(Integer id){
         return "user/form";
     }
 
@@ -44,7 +45,6 @@ public class UserController {
             redirectAttributes.addFlashAttribute("baseResult",baseResult);
             return "redirect:/user/list";
         }else{
-            model.addAttribute("user",user);
             model.addAttribute("baseResult",baseResult);
             return "user/form";
         }
@@ -80,7 +80,6 @@ public class UserController {
     @GetMapping("detail")
     public String detail(int id, Model model){
         User user = userService.selectOne(id);
-        model.addAttribute("user",user);
         return "/user/detail";
     }
 }

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/head::head('内容管理')}">
+</head>
+<link href="https://cdn.bootcss.com/zTree.v3/3.5.33/css/metroStyle/metroStyle.min.css" rel="stylesheet">
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <header th:replace="~{common/header::header}"></header>
+    <aside th:replace="~{common/menus::menus}"></aside>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                内容管理
+                <small>导航</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li class="active">内容管理</li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="alert alert-danger alert-dismissible" th:if="${baseResult != null}">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <span th:utext="${baseResult.getMessage()}"></span>
+            </div>
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title" th:text="${contentCategory.getId()} == null?'新增分类':'修改分类'">Horizontal Form</h3>
+                </div>
+                <!-- form start -->
+                <form id="inputForm" class="form-horizontal" th:action="@{/contentCategory/save}" method="post">
+                    <input name="id" id="id" th:value="${contentCategory.id}" hidden>
+                    <input name="parentId" id="parentId" th:value="${contentCategory.parentId}" hidden>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="parentName" class="col-sm-2 control-label">父级类目</label>
+
+                            <div class="col-sm-10">
+                                <input name="parentName" class="form-control" readonly="readonly"
+                                       data-toggle="modal" data-target="#modal-tree" th:value="${contentCategory.parent.name}" id="parentName" placeholder="请选择">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">分类名称</label>
+
+                            <div class="col-sm-10">
+                                <input name="name" class="form-control required" th:value="${contentCategory.name}" id="name" placeholder="分类名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sortOrder" class="col-sm-2 control-label">分类排序</label>
+
+                            <div class="col-sm-10">
+                                <input name="sortOrder" class="form-control required digits" th:value="${contentCategory.sortOrder}" id="sortOrder" placeholder="分类排序">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-default" onclick="history.back();">返回</button>
+                        <button type="submit" class="btn btn-info pull-right">提交</button>
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+
+        </section>
+    </div>
+    <footer th:replace="~{common/copyright::copyright}"></footer>
+</div>
+<div th:replace="~{common/modal::tree('myTree')}"></div>
+<div th:include="common/footer::footer"></div>
+<script src="https://cdn.bootcss.com/zTree.v3/3.5.33/js/jquery.ztree.core.min.js"></script>
+<script>
+    $(function () {
+        Validate.validateForm("inputForm");
+        App.initZTree('/contentCategory/treeData',["id"],function (nodes) {
+            var node = nodes[0];
+            $("#parentId").val(node.id);
+            $("#parentName").val(node.name);
+        });
+    });
+</script>
+</body>
+</html>

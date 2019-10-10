@@ -11,15 +11,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>web-admin</artifactId>
+    <name>web-admin</name>
     <dependencies>
         <dependency>
             <groupId>com.wzh</groupId>
-            <artifactId>domain</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.wzh</groupId>
-            <artifactId>commons</artifactId>
+            <artifactId>service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

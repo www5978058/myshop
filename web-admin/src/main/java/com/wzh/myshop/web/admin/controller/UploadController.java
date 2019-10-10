@@ -59,7 +59,7 @@ public class UploadController {
         }
         Map<String,Object> data = new HashMap<>();
         //文件URI路径
-        String contentPath = "/upload/"+newFile.getName();
+        String contentPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/upload/"+newFile.getName();
         if(file == null){
             data.put("errno",0);
             data.put("data",new String[]{UrlUtils.getBaseUrl(request)+contentPath});

@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author wzh
  * @date 2019/9/22 - 11:24
  */
-@MapperScan("com.wzh.myshop.web.admin.mapper")
+@MapperScan("com.wzh.myshop.mapper")
 @SpringBootApplication(scanBasePackages = "com.wzh.myshop")
 public class WebAdminApplication {
     public static void main(String[] args) {

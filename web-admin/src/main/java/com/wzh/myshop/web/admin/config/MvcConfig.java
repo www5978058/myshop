@@ -27,7 +27,7 @@ public class MvcConfig {
 
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
-                registry.addInterceptor(loginInterceptor()).addPathPatterns("/**").excludePathPatterns("/","/login","/assets/**");
+                registry.addInterceptor(loginInterceptor()).addPathPatterns("/**").excludePathPatterns("/","/login","/assets/**","/upload/**");
             }
 
 
