@@ -1,5 +1,6 @@
 package com.wzh.myshop.web.admin.test;
 
+import com.wzh.myshop.domain.entity.UserExample;
 import com.wzh.myshop.mapper.UserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +19,7 @@ public class UserServiceTest {
     UserMapper userMapper;
     @Test
     public void test(){
-        userMapper.selectByExample(null).forEach(a->{
-            System.out.println(a);
-        });
+        UserExample example = new UserExample();
+        userMapper.selectByExample(example);
     }
 }

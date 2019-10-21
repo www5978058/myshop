@@ -47,32 +47,32 @@ public interface BaseService<T extends BaseEntity,E extends BaseExample> {
      * 添加对象
      * @param t
      */
-    void add(T t);
+    int add(T t);
 
     /**
      * 根据id删除
      * @param id
      */
-    void delete(Integer id);
+    int delete(Integer id);
 
     /**
      * 批量删除
      * @param e
      */
-    void deleteMul(E e);
+    int deleteMul(E e);
 
     /**
      * 根据主键修改
      * @param t
      */
-    void update(T t);
+    int update(T t);
 
     /**
      * 条件修改对象
      * @param t
      * @param e
      */
-    void updateByExample(T t,E e);
+    int updateByExample(T t,E e);
 
     /**
      * 保存对象

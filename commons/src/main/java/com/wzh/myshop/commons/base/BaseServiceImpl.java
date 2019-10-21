@@ -47,47 +47,48 @@ public abstract class BaseServiceImpl<T extends BaseEntity, E extends BaseExampl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void add(T t) {
-        mapper.insertSelective(t);
+    public int add(T t) {
+        return mapper.insertSelective(t);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Integer id) {
-        mapper.deleteByPrimaryKey(id);
+    public int delete(Integer id) {
+        return mapper.deleteByPrimaryKey(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteMul(E e) {
-        mapper.deleteByExample(e);
+    public int deleteMul(E e) {
+        return mapper.deleteByExample(e);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(T t) {
-        mapper.updateByPrimaryKeySelective(t);
+    public int update(T t) {
+        return mapper.updateByPrimaryKeySelective(t);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateByExample(T t, E e) {
-        mapper.updateByExampleSelective(t, e);
+    public int updateByExample(T t, E e) {
+        return mapper.updateByExampleSelective(t, e);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BaseResult save(T t, String successMsg) {
+        int result = 0;
         String validator = BeanValidator.validator(t);
         if (validator != null) {
             return BaseResult.not_ok(validator);
         }
         //新增
         if (t.getId() == null) {
-            add(t);
+            result = add(t);
         } else {
-            update(t);
+            result = update(t);
         }
-        return BaseResult.ok(successMsg);
+        return result > 1 ?BaseResult.ok(successMsg):BaseResult.not_ok();
     }
 }

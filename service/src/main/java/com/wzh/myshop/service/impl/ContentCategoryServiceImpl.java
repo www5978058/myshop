@@ -52,7 +52,7 @@ public class ContentCategoryServiceImpl extends BaseServiceImpl<ContentCategory,
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Integer id) {
+    public int delete(Integer id) {
         List<Integer> target = new ArrayList<>();
         findAllChild(target,id);
         // 删除类目及其子类目
@@ -62,7 +62,7 @@ public class ContentCategoryServiceImpl extends BaseServiceImpl<ContentCategory,
         // 删除类目下所有内容
         ContentExample e = new ContentExample();
         e.createCriteria().andCategoryIdIn(target);
-        contentService.deleteMul(e);
+        return contentService.deleteMul(e);
     }
 
     /**
