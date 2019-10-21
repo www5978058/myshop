@@ -89,6 +89,6 @@ public abstract class BaseServiceImpl<T extends BaseEntity, E extends BaseExampl
         } else {
             result = update(t);
         }
-        return result > 1 ?BaseResult.ok(successMsg):BaseResult.not_ok();
+        return result > 0 ?BaseResult.ok(successMsg):BaseResult.not_ok();
     }
 }
